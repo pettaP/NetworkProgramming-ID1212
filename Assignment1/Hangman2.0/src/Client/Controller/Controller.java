@@ -18,7 +18,8 @@ public class Controller {
             } catch (IOException ioe) {
                 throw new UncheckedIOException(ioe);
             }
-        }).thenRun(() -> outputHandler.handleMsg("Connected to " + host + ":" + port));
+        }).thenRun(() -> outputHandler.handleMsg("Connected to " + host + ":" + port +
+                                                    "\nType \"start\" to start a new game of Hangman"));
     }
 
     public void disconnect() throws IOException {

@@ -17,7 +17,6 @@ public class InputHandler implements Runnable {
     @Override
     public void run(){
         contr.connect("192.168.1.12", 8080, new ConsoleOutput());
-        System.out.println("Type \"start\" to start a new game of Hangman");
         while (inputFromUser) {
             try {
                 ClientMessage userInput = new ClientMessage(getInput());
@@ -68,11 +67,14 @@ public class InputHandler implements Runnable {
             } else if (parsedMsg.msgType.equalsIgnoreCase("WON")){
                 System.out.println("Your score: " + parsedMsg.gameScore);
                 System.out.println("You won! Type \"start\" to play another game");
+                parsedMsg = null;
             } else if (parsedMsg.msgType.equalsIgnoreCase("LOST")){
                 System.out.println("Your score: " + parsedMsg.gameScore);
                 System.out.println("You lost! Type \"start\" to play another game");
+                parsedMsg = null;
             } else {
                 System.out.println(msg);
+                parsedMsg = null;
             }
         }
     }
