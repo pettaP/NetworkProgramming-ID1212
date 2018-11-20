@@ -1,13 +1,29 @@
 package Server.Controller;
 
 import Server.model.Word;
+import Server.model.WordGenerator;
+
+import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
 
 public class Controller {
 
     public Word currentWord;
+    public WordGenerator wordGen;
 
     public Controller() {
         this.currentWord = new Word();
+        this.wordGen = new WordGenerator();
+
+        CompletableFuture.runAsync(() -> {
+            try {
+                Thread.sleep(30000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            wordGen.generateWords();
+        });
+
     }
 
     /**
@@ -34,7 +50,7 @@ public class Controller {
      * @return a parsed string with game states
      */
     public String newGame() {
-        return currentWord.newGame();
+        return currentWord.newGame(wordGen.getRandWord());
     }
 
     /**

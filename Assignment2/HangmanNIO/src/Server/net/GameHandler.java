@@ -10,7 +10,7 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.concurrent.ForkJoinPool;
 
-class GameHandler implements Runnable{
+class GameHandler {
     private SocketChannel channel;
     private GameServer gameServer;
     private Controller controller;
@@ -26,13 +26,6 @@ class GameHandler implements Runnable{
         this.channel = channel;
         this.controller = new Controller();
     }
-
-    /**
-     *
-     */
-
-    @Override
-    public void run() {}
 
     public void handleMsg() {
             try {
@@ -51,6 +44,7 @@ class GameHandler implements Runnable{
                             break;
                         case ("QUIT"):
                             closeConnection();
+                            System.err.println("Connection closed by client");
                             break;
                     }
                 }
@@ -61,10 +55,10 @@ class GameHandler implements Runnable{
                             msgWithHeader = insertHeader(controller.newGame());
                             addToQueue(msgWithHeader);
                             gameServer.sendMessageToClient(channel);
-                            ForkJoinPool.commonPool().execute(this);
                             break;
                         case ("QUIT"):
                             closeConnection();
+                            System.err.println("Connection closed by client");
                             break;
                         default:
                             break;

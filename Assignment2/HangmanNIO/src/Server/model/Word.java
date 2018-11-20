@@ -1,11 +1,13 @@
 package Server.model;
 
+import java.util.ArrayList;
+import java.util.concurrent.ForkJoinPool;
+
 public class Word {
 
     private String word;
     private StringBuilder cryptWord;
     private char[] wordArray;
-    private WordGenerator wordGen;
     private int possibleGuesses;
     private int correctGuesses;
     private boolean wordGuessed;
@@ -16,7 +18,6 @@ public class Word {
      * constructor. Creates a new instance of the word generator
      */
     public Word() {
-        wordGen = new WordGenerator();
         correctGuesses = 0;
         score = 0;
     }
@@ -25,8 +26,9 @@ public class Word {
      * start a new game, initializes the game state attributes and collects a new word to crypt from the wordGenerator
      * @return a parsed message with all the game state ready to send to the client
      */
-    public String newGame(){
-        word = wordGen.getRandWord();
+    public String newGame(String word){
+        this.word = word;
+
         this.wordArray = word.toLowerCase().toCharArray();
         cryptWord = new StringBuilder("");
         possibleGuesses = word.length();

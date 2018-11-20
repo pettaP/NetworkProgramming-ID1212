@@ -1,13 +1,9 @@
 package Client.net;
 
 import Client.View.ServerMessageParser;
-import javafx.scene.media.MediaException;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
@@ -86,7 +82,7 @@ public class GameConnection implements Runnable{
     }
 
     public void disconnect() throws IOException {
-        socketChannel.close();
+        sendMsg("QUIT");
         connected = false;
         //Notify user about status
     }

@@ -17,8 +17,8 @@ public class InputHandler implements Runnable {
     @Override
     public void run(){
         gc = new GameConnection();
-        gc.connect("localhost", 8080, new ConsoleOutput());
         startMessage();
+        gc.connect("localhost", 8080, new ConsoleOutput());
         while (inputFromUser) {
             try {
                 ClientMessage userInput = new ClientMessage(getInput());
@@ -57,7 +57,7 @@ public class InputHandler implements Runnable {
     }
 
     private void startMessage() {
-        System.out.println("type \"start\" to begin a new game of HANGMAN");
+        System.out.println("Type \"start\" to begin a new game of HANGMAN");
     }
 
     private class ConsoleOutput implements OutputHandler {

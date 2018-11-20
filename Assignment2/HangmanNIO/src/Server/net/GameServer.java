@@ -109,11 +109,9 @@ public class GameServer {
 
         private void sendMsg() throws IOException {
             ByteBuffer msg = null;
-            synchronized (gameHandler.messagesToSend) {
-                while ((msg = gameHandler.messagesToSend.peek()) != null) {
-                    gameHandler.sendMsg(msg);
-                    gameHandler.messagesToSend.remove();
-                }
+            while ((msg = gameHandler.messagesToSend.peek()) != null) {
+                gameHandler.sendMsg(msg);
+                gameHandler.messagesToSend.remove();
             }
         }
     }

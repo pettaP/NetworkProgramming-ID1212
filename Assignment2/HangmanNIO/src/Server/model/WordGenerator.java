@@ -16,7 +16,7 @@ public class WordGenerator {
     /**
      * Constructor. loads the word.txt file and fills a string list with the words in the document
      */
-    public WordGenerator() {
+    public void generateWords() {
         try {
             wordList = new ArrayList<>();
             fileRead = new FileReader(new File("C:\\Users\\pete_\\Documents\\KTH\\Nätverksprogrammering\\Assignments\\Assignment2\\HangmanNIO\\word.txt"));
