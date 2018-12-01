@@ -16,11 +16,6 @@ public class Controller {
         this.wordGen = new WordGenerator();
 
         CompletableFuture.runAsync(() -> {
-            try {
-                Thread.sleep(30000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             wordGen.generateWords();
         });
 
