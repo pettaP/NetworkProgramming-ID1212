@@ -1,5 +1,6 @@
 package Server.StartUp;
 
+import Server.Net.TCPServer;
 import Server.Controller.Controller;
 
 import java.net.MalformedURLException;
@@ -25,7 +26,7 @@ public class Server {
         } catch (RemoteException e) {
             LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
         }
-        Controller controller = new Controller();
+        Controller controller = new Controller(new TCPServer());
         Naming.rebind("RMIdb", controller);
     }
 }

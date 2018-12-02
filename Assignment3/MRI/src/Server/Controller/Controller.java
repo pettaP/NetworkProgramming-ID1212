@@ -7,6 +7,7 @@ import Common.UserDTO;
 import Server.Model.Client;
 import Server.Model.SQLMessage;
 import Server.Integration.DBHandler;
+import Server.Net.TCPServer;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -18,12 +19,15 @@ import java.util.Map;
 public class Controller extends UnicastRemoteObject implements FileCatalog {
 
     private final DBHandler dbHandler;
+    private final TCPServer tcpServer;
     private final SQLMessage sqlMessage;
     private final Map<Integer, Client> loggedInUsers = Collections.synchronizedMap(new HashMap<>());
 
-    public Controller() throws RemoteException{
+    public Controller(TCPServer tcpServer) throws RemoteException{
+        this.tcpServer = tcpServer;
         this.dbHandler = new DBHandler();
         this.sqlMessage = new SQLMessage();
+        new Thread(tcpServer).start();
     }
 
     @Override
@@ -76,6 +80,7 @@ public class Controller extends UnicastRemoteObject implements FileCatalog {
 
     @Override
     public synchronized void uploadFile(FileDTO fileDTO, UserDTO userDTO) throws RemoteException {
+        tcpServer.sending = false;
         Client client = loggedInUsers.get(userDTO.getUserId());
         loggedInUsers.get(client.getUserId()).getOutputToUser().recvMsg(dbHandler.uploadFile(fileDTO, client.getUserId()));
     }
@@ -97,6 +102,8 @@ public class Controller extends UnicastRemoteObject implements FileCatalog {
 
     @Override
     public synchronized void downloadFile(FileDTO fileDTO, UserDTO userDTO) throws RemoteException, SQLException {
+        tcpServer.sending = true;
+        tcpServer.fileNameFromDB = fileDTO.getFileName();
         Client client = loggedInUsers.get(userDTO.getUserId());
         int fileOwner = dbHandler.getOwner(fileDTO);
         String response = dbHandler.getFile(fileDTO);
@@ -106,8 +113,10 @@ public class Controller extends UnicastRemoteObject implements FileCatalog {
                     loggedInUsers.get(fileOwner).getOutputToUser().recvMsg("DOWNLOAD#"+fileDTO.getFileName()+ "#" +loggedInUsers.get(client.getUserId()).getUserName());
                 }
             }
+            userDTO.getOutputToUser().recvMsg("DOWNLOAD#"+fileDTO.getFileName()+ "#" + userDTO.getUserName());
+        } else {
+            throw new RemoteException("There is not file with that name. Please check the file name.");
         }
-        loggedInUsers.get(client.getUserId()).getOutputToUser().printToFile(response);
     }
 
 }

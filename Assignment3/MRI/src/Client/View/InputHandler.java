@@ -1,10 +1,12 @@
 package Client.View;
 
+import Client.Net.ServerConnection;
 import Common.FileCatalog;
 import Common.FileDTO;
 import Common.MessagePasser;
 import Common.UserDTO;
 
+import java.io.FileNotFoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
@@ -16,6 +18,7 @@ public class InputHandler implements Runnable {
     private MessagePasser outputToUser;
     private boolean receivingInput;
     private final Scanner scanner = new Scanner(System.in);
+    private ServerConnection serverConnection;
     private int idAtServer;
     private UserDTO userDTO;
     private FileDTO fileDTO;
@@ -28,6 +31,7 @@ public class InputHandler implements Runnable {
         this.receivingInput = true;
         this.loggedIn = false;
         this.idAtServer = 0;
+        this.serverConnection = new ServerConnection();
         new Thread(this).start();
         try {
             this.outputToUser = new OutputToUser();
@@ -88,10 +92,16 @@ public class InputHandler implements Runnable {
                             fileDTO = new FileDTO();
                             fileDTO.setFileName(inputFromUser.messageBody);
                             fileCatalog.downloadFile(fileDTO, userDTO);
+                            serverConnection.receiveFile();
                             break;
                         case ("UPLOAD"):
                             fileDTO = setFileDTO();
-                            fileCatalog.uploadFile(fileDTO, userDTO);
+                            try {
+                                fileCatalog.uploadFile(fileDTO, userDTO);
+                                serverConnection.sendFile(fileDTO.getFileName());
+                            } catch (FileNotFoundException e) {
+                                printToPromt.fileNotFound();
+                            }
                             break;
                         case ("DELETE"):
                             FileDTO file = new FileDTO();
@@ -104,7 +114,7 @@ public class InputHandler implements Runnable {
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                printToPromt.printErr(e.getMessage());
             }
         }
     }

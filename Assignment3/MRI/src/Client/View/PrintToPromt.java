@@ -42,4 +42,12 @@ public class PrintToPromt {
         System.out.println("Register as a new user by typing REGISTER followed by desired username and password");
         System.out.println("Type HELP for help");
     }
+
+    public void fileNotFound() {
+        System.out.println("The file cloud not be found.\nPlease check the file name and that you include the format of the file");
+    }
+
+    public void printErr(String msg) {
+        System.out.println(msg);
+    }
 }
