@@ -1,2 +1,0 @@
-FileName            File size          Owner             Write     
-a.txt               5                   pettap              0                   
