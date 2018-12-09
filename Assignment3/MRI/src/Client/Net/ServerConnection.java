@@ -24,7 +24,7 @@ public class ServerConnection {
         readFromFile.sendFile(toServer, fileName);
         toServer.close();
 
-    }
+        }
 
     public void receiveFile() throws IOException{
 

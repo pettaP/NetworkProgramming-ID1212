@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Currency Converter</title>
+</head>
+<body>
+<section>
+    <h1>Convert Currency</h1>
+    <p class="info">Please enter conversion details</p>
+    <form th:action="@{/create-conversion}" th:object="${createConversion}" method='POST'>
+        <p>Select From Currency:</p>
+        <p>
+            <select th:field="*{fromCurrency}">
+                <option th:value="sek">SEK</option>
+                <option th:value="eur">EUR</option>
+                <option th:value="gbp">GBP</option>
+                <option th:value="usd">USD</option>
+            </select>
+        </p>
+        <p>Select To Currency:</p>
+        <p>
+            <select th:field="*{toCurrency}">
+                <option th:value="sek">SEK</option>
+                <option th:value="eur">EUR</option>
+                <option th:value="gbp">GBP</option>
+                <option th:value="usd">USD</option>
+            </select>
+        </p>
+        <p class="form"><label>Insert New Rate:</label><input type="number" step="0.01" th:field="*{amount}" id="create-amount"/>
+            <span class="error" th:if="${#fields.hasErrors('amount')}"
+                  th:errors="*{amount}">Rate Error</span>
+        </p>
+        <p><input name="Convert" type="submit" value="submit"/></p>
+    </form>
+    <p class="result" th:object="${createRate}"><label>Conversion Result:</label><span th:text="*{amount}"></span></p>
+</section>
+</body>
+</html>
