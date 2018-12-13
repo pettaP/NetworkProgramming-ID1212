@@ -1,12 +1,10 @@
 package Rates.Presentation;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
-@Transactional
 @Service
 public class SetConversionRate {
 
