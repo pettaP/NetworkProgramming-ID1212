@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "336185247848-9fv2nhmk1okf7d8h6l58e9kfathdn24t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hangmanandroid.id1212",
+            "certificate_hash": "1f27d905dacbf9170e338abbc9fd11c068855e3f"
+          }
+        },
+        {
           "client_id": "336185247848-n1ds2nqfu6o2bp1jh7ipq8i727qdk9md.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "336185247848-n1ds2nqfu6o2bp1jh7ipq8i727qdk9md.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

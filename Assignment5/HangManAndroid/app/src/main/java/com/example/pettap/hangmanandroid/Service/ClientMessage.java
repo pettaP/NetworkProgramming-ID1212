@@ -1,4 +1,4 @@
-package com.example.pettap.hangmanandroid;
+package com.example.pettap.hangmanandroid.Service;
 
 public class ClientMessage {
 

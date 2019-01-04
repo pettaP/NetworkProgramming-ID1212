@@ -1,8 +1,10 @@
-package com.example.pettap.hangmanandroid;
+package com.example.pettap.hangmanandroid.Service;
 
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.TextView;
+
+import com.example.pettap.hangmanandroid.Service.ClientMessage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
